@@ -2,8 +2,8 @@
 
 import { useStore } from "@tanstack/react-form";
 
-import { 
-  VOICE_CATEGORY_LABELS
+import {
+  VOICE_CATEGORY_LABELS,
 } from "@/features/voices/data/voice-categories";
 
 import { Field, FieldLabel } from "@/components/ui/field";
@@ -23,11 +23,28 @@ import { VoiceAvatar } from "@/components/voice-avatar/voice-avatar";
 import { useTTSVoices } from "../contexts/tts-voices-context";
 import { ttsFormOptions } from "./text-to-speech-form";
 
+const PROVIDER_LABELS: Record<string, string> = {
+  CHATTERBOX: "",
+  MIMO: "MiMo",
+  ELEVENLABS: "ElevenLabs",
+  MINIMAX: "MiniMax",
+};
+
+function ProviderBadge({ provider }: { provider: string }) {
+  const label = PROVIDER_LABELS[provider];
+  if (!label) return null;
+  return (
+    <span className="ml-1 rounded bg-muted px-1 py-0.5 text-[10px] font-medium text-muted-foreground">
+      {label}
+    </span>
+  );
+}
+
 export function VoiceSelector() {
-  const { 
-    customVoices, 
-    systemVoices, 
-    allVoices: voices
+  const {
+    customVoices,
+    systemVoices,
+    allVoices: voices,
   } = useTTSVoices();
 
   const form = useTypedAppFormContext(ttsFormOptions);
@@ -43,8 +60,19 @@ export function VoiceSelector() {
         id: voiceId,
         name: "Unavailable voice",
         category: null as null,
+        provider: "CHATTERBOX" as string,
       }
       : voices[0];
+
+  // Group system voices by provider
+  const chatterboxVoices = systemVoices.filter(
+    (v) => !v.provider || v.provider === "CHATTERBOX",
+  );
+  const mimoVoices = systemVoices.filter((v) => v.provider === "MIMO");
+  const elevenlabsVoices = systemVoices.filter(
+    (v) => v.provider === "ELEVENLABS",
+  );
+  const minimaxVoices = systemVoices.filter((v) => v.provider === "MINIMAX");
 
   return (
     <Field>
@@ -58,7 +86,7 @@ export function VoiceSelector() {
           <SelectValue>
             {currentVoice && (
               <>
-                <VoiceAvatar 
+                <VoiceAvatar
                   seed={currentVoice.id}
                   name={currentVoice.name}
                 />
@@ -68,6 +96,10 @@ export function VoiceSelector() {
                     ` - ${VOICE_CATEGORY_LABELS[currentVoice.category]}`
                   }
                 </span>
+                {currentVoice.provider &&
+                  currentVoice.provider !== "CHATTERBOX" && (
+                    <ProviderBadge provider={currentVoice.provider} />
+                  )}
               </>
             )}
           </SelectValue>
@@ -84,8 +116,6 @@ export function VoiceSelector() {
                   />
                   <span className="truncate text-sm font-medium">
                     {currentVoice.name}
-                    {currentVoice.category &&
-                      ` - ${VOICE_CATEGORY_LABELS[currentVoice.category]}`}
                   </span>
                 </SelectItem>
               </SelectGroup>
@@ -110,10 +140,10 @@ export function VoiceSelector() {
           {customVoices.length > 0 && systemVoices.length > 0 && (
             <SelectSeparator />
           )}
-          {systemVoices.length > 0 && (
+          {chatterboxVoices.length > 0 && (
             <SelectGroup>
-              <SelectLabel>Built-in Voices</SelectLabel>
-              {systemVoices.map((v) => (
+              <SelectLabel>Chatterbox Voices</SelectLabel>
+              {chatterboxVoices.map((v) => (
                 <SelectItem key={v.id} value={v.id}>
                   <VoiceAvatar seed={v.id} name={v.name} />
                   <span className="truncate text-sm font-medium">
@@ -123,8 +153,59 @@ export function VoiceSelector() {
               ))}
             </SelectGroup>
           )}
+          {mimoVoices.length > 0 && (
+            <>
+              {chatterboxVoices.length > 0 && <SelectSeparator />}
+              <SelectGroup>
+                <SelectLabel>MiMo Voices</SelectLabel>
+                {mimoVoices.map((v) => (
+                  <SelectItem key={v.id} value={v.id}>
+                    <VoiceAvatar seed={v.id} name={v.name} />
+                    <span className="truncate text-sm font-medium">
+                      {v.name}
+                      <ProviderBadge provider="MIMO" />
+                    </span>
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </>
+          )}
+          {elevenlabsVoices.length > 0 && (
+            <>
+              <SelectSeparator />
+              <SelectGroup>
+                <SelectLabel>ElevenLabs Voices</SelectLabel>
+                {elevenlabsVoices.map((v) => (
+                  <SelectItem key={v.id} value={v.id}>
+                    <VoiceAvatar seed={v.id} name={v.name} />
+                    <span className="truncate text-sm font-medium">
+                      {v.name}
+                      <ProviderBadge provider="ELEVENLABS" />
+                    </span>
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </>
+          )}
+          {minimaxVoices.length > 0 && (
+            <>
+              <SelectSeparator />
+              <SelectGroup>
+                <SelectLabel>MiniMax Voices</SelectLabel>
+                {minimaxVoices.map((v) => (
+                  <SelectItem key={v.id} value={v.id}>
+                    <VoiceAvatar seed={v.id} name={v.name} />
+                    <span className="truncate text-sm font-medium">
+                      {v.name}
+                      <ProviderBadge provider="MINIMAX" />
+                    </span>
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </>
+          )}
         </SelectContent>
       </Select>
     </Field>
   );
-};
+}

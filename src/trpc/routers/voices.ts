@@ -47,6 +47,7 @@ export const voicesRouter = createTRPCRouter({
             category: true,
             language: true,
             variant: true,
+            provider: true,
           },
         }),
         prisma.voice.findMany({
@@ -62,6 +63,7 @@ export const voicesRouter = createTRPCRouter({
             category: true,
             language: true,
             variant: true,
+            provider: true,
           },
         }),
       ]);

@@ -120,6 +120,7 @@ export async function POST(request: Request) {
       data: {
         name,
         variant: "CUSTOM",
+        provider: "CHATTERBOX",
         orgId,
         description,
         category,

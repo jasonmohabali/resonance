@@ -13,10 +13,13 @@ import { useCheckout } from "@/features/billing/hooks/use-checkout";
 const ttsFormSchema = z.object({
   text: z.string().min(1, "Please enter some text"),
   voiceId: z.string().min(1, "Please select a voice"),
-  temperature: z.number(),
-  topP: z.number(),
-  topK: z.number(),
-  repetitionPenalty: z.number(),
+  // Provider-specific settings stored as a flexible record
+  settings: z.record(z.string(), z.unknown()).optional(),
+  // Legacy Chatterbox fields (backward compat)
+  temperature: z.number().optional(),
+  topP: z.number().optional(),
+  topK: z.number().optional(),
+  repetitionPenalty: z.number().optional(),
 });
 
 export type TTSFormValues = z.infer<typeof ttsFormSchema>;
@@ -24,6 +27,7 @@ export type TTSFormValues = z.infer<typeof ttsFormSchema>;
 export const defaultTTSValues: TTSFormValues = {
   text: "",
   voiceId: "",
+  settings: {},
   temperature: 0.8,
   topP: 0.95,
   topK: 1000,
@@ -60,6 +64,8 @@ export function TextToSpeechForm({
         const data = await createMutation.mutateAsync({
           text: value.text.trim(),
           voiceId: value.voiceId,
+          settings: value.settings,
+          // Legacy Chatterbox fields
           temperature: value.temperature,
           topP: value.topP,
           topK: value.topK,
@@ -87,4 +93,4 @@ export function TextToSpeechForm({
   });
 
   return <form.AppForm>{children}</form.AppForm>;
-};
+}

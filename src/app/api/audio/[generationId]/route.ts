@@ -16,6 +16,7 @@ export async function GET(
 
   const generation = await prisma.generation.findUnique({
     where: { id: generationId, orgId },
+    select: { r2ObjectKey: true, contentType: true },
   });
 
   if (!generation) {
@@ -35,7 +36,7 @@ export async function GET(
 
   return new Response(audioResponse.body, {
     headers: {
-      "Content-Type": "audio/wav",
+      "Content-Type": generation.contentType ?? "audio/wav",
       "Cache-Control": "private, max-age=3600",
     },
   });

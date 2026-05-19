@@ -7,7 +7,7 @@ import { TextInputPanel } from "@/features/text-to-speech/components/text-input-
 import { SettingsPanel } from "@/features/text-to-speech/components/settings-panel";
 import {
   TextToSpeechForm,
-  type TTSFormValues
+  type TTSFormValues,
 } from "@/features/text-to-speech/components/text-to-speech-form";
 import { TTSVoicesProvider } from "../contexts/tts-voices-context";
 import { VoicePreviewPanel } from "../components/voice-preview-panel";
@@ -19,13 +19,10 @@ export function TextToSpeechDetailView({
   generationId: string;
 }) {
   const trpc = useTRPC();
-  const [ 
-    generationQuery,
-    voicesQuery,
-  ] = useSuspenseQueries({
+  const [generationQuery, voicesQuery] = useSuspenseQueries({
     queries: [
       trpc.generations.getById.queryOptions({ id: generationId }),
-      trpc.voices.getAll.queryOptions()
+      trpc.voices.getAll.queryOptions(),
     ],
   });
 
@@ -37,23 +34,25 @@ export function TextToSpeechDetailView({
 
   // Requested voice may no longer exist (deleted); fall back to first available
   const resolvedVoiceId =
-    data?.voiceId &&
-    allVoices.some((v) => v.id === data.voiceId)
+    data?.voiceId && allVoices.some((v) => v.id === data.voiceId)
       ? data.voiceId
       : fallbackVoiceId;
 
+  // Build settings from the generation's settings JSON or legacy fields
+  const generationSettings = (data.settings as Record<string, unknown>) ?? {};
+
+  // For Chatterbox generations, populate legacy fields from the generation data
   const defaultValues: TTSFormValues = {
     text: data.text,
     voiceId: resolvedVoiceId,
-    temperature: data.temperature,
-    topP: data.topP,
-    topK: data.topK,
-    repetitionPenalty: data.repetitionPenalty,
+    settings: generationSettings,
+    temperature: (data.temperature as number) ?? 0.8,
+    topP: (data.topP as number) ?? 0.95,
+    topK: (data.topK as number) ?? 1000,
+    repetitionPenalty: (data.repetitionPenalty as number) ?? 1.2,
   };
 
   // Use the denormalized voiceName snapshot instead of a populated voice relation
-  // so the preview always shows the voice name at the time of generation,
-  // even if the voice was later renamed or deleted.
   const generationVoice = {
     id: data.voiceId ?? undefined,
     name: data.voiceName,
@@ -81,4 +80,4 @@ export function TextToSpeechDetailView({
       </TextToSpeechForm>
     </TTSVoicesProvider>
   );
-};
+}
