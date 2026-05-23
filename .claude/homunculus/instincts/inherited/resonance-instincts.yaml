@@ -1,0 +1,501 @@
+# Instincts generated from https://github.com/jasonmohabali/resonance
+# Generated: 2026-03-27T00:42:06.461Z
+# Version: 2.0
+# NOTE: This file supplements (does not replace) any existing curated instincts.
+# High-confidence manually curated instincts should be preserved alongside these.
+
+---
+id: resonance-commit-length
+trigger: "when writing a commit message"
+confidence: 0.6
+domain: git
+source: repo-analysis
+source_repo: https://github.com/jasonmohabali/resonance
+---
+
+# Resonance Commit Length
+
+## Action
+
+Keep commit messages concise (~43 characters)
+
+## Evidence
+
+- Average commit message length: 43 chars
+- Based on 21 commits
+
+---
+id: resonance-naming-files
+trigger: "when creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/jasonmohabali/resonance
+---
+
+# Resonance Naming Files
+
+## Action
+
+Use camelCase naming convention
+
+## Evidence
+
+- Analyzed file naming patterns in repository
+- Dominant pattern: camelCase
+
+---
+id: resonance-import-alias
+trigger: "when importing modules"
+confidence: 0.85
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/jasonmohabali/resonance
+---
+
+# Resonance Import Alias
+
+## Action
+
+Use path aliases (@/, ~/) instead of relative imports
+
+## Evidence
+
+- Import analysis shows alias pattern
+- Example: import { x } from '@/lib/x'
+
+---
+id: resonance-export-style
+trigger: "when exporting from a module"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/jasonmohabali/resonance
+---
+
+# Resonance Export Style
+
+## Action
+
+Prefer default exports
+
+## Evidence
+
+- Export pattern analysis
+- Dominant style: default
+
+---
+id: resonance-test-separate
+trigger: "when writing tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/jasonmohabali/resonance
+---
+
+# Resonance Test Separate
+
+## Action
+
+Place tests in the tests/ or __tests__/ directory, mirroring src structure
+
+## Evidence
+
+- Separate test directory pattern detected
+- Tests live in dedicated test folders
+
+---
+id: resonance-workflow-feature-module-development
+trigger: "when doing feature module development"
+confidence: 0.7
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/jasonmohabali/resonance
+---
+
+# Resonance Workflow Feature Module Development
+
+## Action
+
+Follow the feature-module-development workflow:
+1. Create or update feature directory under src/features/[feature-name]/
+2. Add or update components in src/features/[feature-name]/components/
+3. Add or update hooks in src/features/[feature-name]/hooks/
+4. Add or update data/constants files in src/features/[feature-name]/data/ or data/constants.ts
+5. Add or update views in src/features/[feature-name]/views/
+6. Update or create related pages/layouts under src/app/(dashboard)/[feature-name]/
+7. Update shared files if necessary (e.g., src/app/layout.tsx, src/features/dashboard/components/dashboard-sidebar.tsx)
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~4x per month
+- Files: src/features/*/components/*.tsx, src/features/*/hooks/*.ts, src/features/*/data/*.ts
+
+---
+id: resonance-workflow-api-endpoint-and-router-extension
+trigger: "when doing api endpoint and router extension"
+confidence: 0.65
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/jasonmohabali/resonance
+---
+
+# Resonance Workflow Api Endpoint And Router Extension
+
+## Action
+
+Follow the api-endpoint-and-router-extension workflow:
+1. Create or update route files under src/app/api/[resource]/[action]/route.ts or similar
+2. Add or update router files under src/trpc/routers/[resource].ts
+3. Update src/trpc/routers/_app.ts to include new routers if necessary
+4. Update types or shared backend logic if needed (e.g., src/types/*, src/lib/env.ts)
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~3x per month
+- Files: src/app/api/*/route.ts, src/trpc/routers/*.ts, src/trpc/routers/_app.ts
+
+---
+id: resonance-workflow-dependency-and-config-update
+trigger: "when doing dependency and config update"
+confidence: 0.65
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/jasonmohabali/resonance
+---
+
+# Resonance Workflow Dependency And Config Update
+
+## Action
+
+Follow the dependency-and-config-update workflow:
+1. Update package.json and package-lock.json
+2. Update next.config.ts or other config files as needed
+3. Add or update .gitignore if necessary
+4. Add new config files (e.g., sentry.edge.config.ts, sentry.server.config.ts)
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~3x per month
+- Files: package.json, package-lock.json, next.config.ts
+
+---
+id: resonance-workflow-backend-infrastructure-extension
+trigger: "when doing backend infrastructure extension"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/jasonmohabali/resonance
+---
+
+# Resonance Workflow Backend Infrastructure Extension
+
+## Action
+
+Follow the backend-infrastructure-extension workflow:
+1. Add or update prisma.config.ts or prisma/schema.prisma
+2. Add or update scripts for seeding or system data (e.g., scripts/seed-system-voices.ts, scripts/system-voices/*.wav)
+3. Update src/lib/* for backend utilities (e.g., env.ts, r2.ts, db.ts)
+4. Update or create server files (e.g., src/trpc/server.tsx)
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: prisma.config.ts, prisma/schema.prisma, scripts/*.ts
+
+---
+id: resonance-coding-naming-files
+trigger: "When creating or renaming a file"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: jasonmohabali/resonance
+---
+
+# Resonance Coding Naming Files
+
+## Action
+
+Use camelCase for file names
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.files
+- Seen in src/features/*/components/*.tsx
+
+---
+id: resonance-coding-naming-functions
+trigger: "When defining a function"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: jasonmohabali/resonance
+---
+
+# Resonance Coding Naming Functions
+
+## Action
+
+Use camelCase for function names
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.functions
+
+---
+id: resonance-coding-naming-classes
+trigger: "When defining a class"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: jasonmohabali/resonance
+---
+
+# Resonance Coding Naming Classes
+
+## Action
+
+Use PascalCase for class names
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.classes
+
+---
+id: resonance-coding-naming-constants
+trigger: "When declaring a constant"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: jasonmohabali/resonance
+---
+
+# Resonance Coding Naming Constants
+
+## Action
+
+Use SCREAMING_SNAKE_CASE for constant names
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.constants
+
+---
+id: resonance-coding-import-style
+trigger: "When importing modules"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: jasonmohabali/resonance
+---
+
+# Resonance Coding Import Style
+
+## Action
+
+Use alias import style
+
+## Evidence
+
+- Pattern in codeStyle.importStyle
+
+---
+id: resonance-coding-export-style
+trigger: "When exporting modules"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: jasonmohabali/resonance
+---
+
+# Resonance Coding Export Style
+
+## Action
+
+Use default export style
+
+## Evidence
+
+- Pattern in codeStyle.exportStyle
+
+---
+id: resonance-testing-location
+trigger: "When adding or updating tests"
+confidence: 0.7
+domain: testing
+source: repo-analysis
+source_repo: jasonmohabali/resonance
+---
+
+# Resonance Testing Location
+
+## Action
+
+Place tests in a separate directory from source code
+
+## Evidence
+
+- Pattern in architecture.folderStructure.testLocation
+
+---
+id: resonance-testing-pattern
+trigger: "When writing tests for a feature"
+confidence: 0.7
+domain: testing
+source: repo-analysis
+source_repo: jasonmohabali/resonance
+---
+
+# Resonance Testing Pattern
+
+## Action
+
+Create tests in a dedicated test folder corresponding to the feature/module
+
+## Evidence
+
+- Pattern in architecture.folderStructure.testLocation
+- Features are modularized under src/features/
+
+---
+id: resonance-git-commit-prefix
+trigger: "When writing a commit message"
+confidence: 0.85
+domain: git
+source: repo-analysis
+source_repo: jasonmohabali/resonance
+---
+
+# Resonance Git Commit Prefix
+
+## Action
+
+Prefix commit messages with a two-digit code or label (e.g., 09:, 08:, bonus:)
+
+## Evidence
+
+- Pattern in commits.prefixes
+- Examples: '09: billing', 'bonus: sentry error monitoring'
+
+---
+id: resonance-git-merge-pr-format
+trigger: "When merging a pull request"
+confidence: 0.8
+domain: git
+source: repo-analysis
+source_repo: jasonmohabali/resonance
+---
+
+# Resonance Git Merge Pr Format
+
+## Action
+
+Use 'Merge pull request #[number] from [branch]' format in merge commits
+
+## Evidence
+
+- Examples: 'Merge pull request #9 from code-with-antonio/09-billing'
+
+---
+id: resonance-workflow-feature-module-development
+trigger: "When adding a new major feature or module"
+confidence: 0.95
+domain: workflow
+source: repo-analysis
+source_repo: jasonmohabali/resonance
+---
+
+# Resonance Workflow Feature Module Development
+
+## Action
+
+Follow the feature-module-development workflow: create/update feature dir, components, hooks, data, views, related pages/layouts, and update shared files as needed
+
+## Evidence
+
+- Workflow: feature-module-development
+- Example commit sequences and files
+
+---
+id: resonance-workflow-api-endpoint-router-extension
+trigger: "When adding a new API endpoint or extending backend capabilities"
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: jasonmohabali/resonance
+---
+
+# Resonance Workflow Api Endpoint Router Extension
+
+## Action
+
+Follow the api-endpoint-and-router-extension workflow: create/update route files, router files, update _app.ts, and update types/shared logic
+
+## Evidence
+
+- Workflow: api-endpoint-and-router-extension
+- Example commit sequences and files
+
+---
+id: resonance-workflow-dependency-config-update
+trigger: "When adding or updating dependencies or project configuration"
+confidence: 0.85
+domain: workflow
+source: repo-analysis
+source_repo: jasonmohabali/resonance
+---
+
+# Resonance Workflow Dependency Config Update
+
+## Action
+
+Follow the dependency-and-config-update workflow: update package files, config files, .gitignore, and add new config files as needed
+
+## Evidence
+
+- Workflow: dependency-and-config-update
+- Example commit sequences and files
+
+---
+id: resonance-workflow-backend-infrastructure-extension
+trigger: "When extending backend infrastructure (e.g., DB config, seeding, storage)"
+confidence: 0.85
+domain: workflow
+source: repo-analysis
+source_repo: jasonmohabali/resonance
+---
+
+# Resonance Workflow Backend Infrastructure Extension
+
+## Action
+
+Follow the backend-infrastructure-extension workflow: update prisma config/schema, add/update scripts, update backend utilities, and server files
+
+## Evidence
+
+- Workflow: backend-infrastructure-extension
+- Example commit sequences and files
+
+---
+id: resonance-error-handling-try-catch
+trigger: "When handling errors in code"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: jasonmohabali/resonance
+---
+
+# Resonance Error Handling Try Catch
+
+## Action
+
+Use try-catch blocks for error handling
+
+## Evidence
+
+- Pattern in errorHandling.style
+
